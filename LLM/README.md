@@ -19,7 +19,7 @@ is sequential process, and need improvements.
 
 Basically left is Encoder and right is Decoder.
 
-<figure><img src=".gitbook/assets/image (2) (1).png" alt=""><figcaption><p>Transformer Model</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (5).png" alt=""><figcaption><p>Transformer Model</p></figcaption></figure>
 
 ### &#x20;Input Embedding:&#x20;
 
@@ -29,7 +29,7 @@ Basically left is Encoder and right is Decoder.
 
 
 
-<figure><img src=".gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Input Embedding</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption><p>Input Embedding</p></figcaption></figure>
 
 
 
@@ -41,7 +41,7 @@ An fixed vector of numbers (size is $$d_{model}$$) that represents the token pos
 
 The value in the position vector is caclulated by PE functions. PE only takes in position and 2i/2i+1, so it's not related to the token and can be applied to different sentences in one model.
 
-<figure><img src=".gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>PE function</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption><p>PE function</p></figcaption></figure>
 
 
 
