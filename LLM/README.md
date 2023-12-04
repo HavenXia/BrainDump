@@ -19,7 +19,7 @@ is sequential process, and need improvements.
 
 Basically left is Encoder and right is Decoder.
 
-<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>Transformer Model</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1).png" alt=""><figcaption><p>Transformer Model</p></figcaption></figure>
 
 ### &#x20;Input Embedding:&#x20;
 
@@ -29,7 +29,7 @@ Basically left is Encoder and right is Decoder.
 
 
 
-<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>Input Embedding</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Input Embedding</p></figcaption></figure>
 
 
 
@@ -41,7 +41,7 @@ An fixed vector of numbers (size is $$d_{model}$$) that represents the token pos
 
 The value in the position vector is caclulated by PE functions. PE only takes in position and 2i/2i+1, so it's not related to the token and can be applied to different sentences in one model.
 
-<figure><img src=".gitbook/assets/image (1) (1).png" alt=""><figcaption><p>PE function</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (1) (1).png" alt=""><figcaption><p>PE function</p></figcaption></figure>
 
 
 
@@ -51,13 +51,13 @@ The value in the position vector is caclulated by PE functions. PE only takes in
 
 Self attention allows the model to relate words to each other.
 
-$$Attention(Q,K,V) = softmax(QK^T/\sqrt{d_{model}})V$$&#x20;
+$$Attention(Q,K,V) = softmax(QK^T/\sqrt{d_{k}})V$$&#x20;
 
-Q,K,V here are both a same matrix, the **Encoder Input**.
+Q,K,V here are both a same matrix, the **Encoder Input**. $$d_k = d_{model}$$ here.
 
 E.g. for 6 tokens and  $$d_{model}$$= 512, Q\*K will be a 6x6 matrix. And $$softmax()$$ is like normalize that ensure each row sums to 1.
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Softmax function</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>Softmax function</p></figcaption></figure>
 
 Then we multiple it again with V, the initial (6, 512) encoder input, get another (6, 512) matrix that contains meaning in vocabulary/ position in sentence/ token interactions.
 
@@ -65,5 +65,22 @@ Then we multiple it again with V, the initial (6, 512) encoder input, get anothe
 
 $$MultiHead(Q,K,V) = Conact(head_1 ... head_n) W^O$$
 
-$$head_i=Attention(QW_i^Q,KW_i^K,VW_i^V)$$
 
+
+The encoder input (use 6,512 as example) got copied 4 times.
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Encoder</p></figcaption></figure>
+
+Q, K, V stands for query, key and value.
+
+$$W^Q, W^K, W^V$$ are parameter matrices in shape $$(d_{model}, d_{model})$$.&#x20;
+
+After multiplication with parameters, we split the output into _h_ matrices, h stands for # of heads.
+
+$$head_i=Attention({QW^Q}_i,{KW^K}_i,{VW^V}_i)$$ is then used to caculate attention of each piece.
+
+Then a $$Conact()$$is called so we still got a (6, 512) shape matrix, named _H._
+
+<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>MultiHead Attention</p></figcaption></figure>
+
+The last step is to&#x20;
