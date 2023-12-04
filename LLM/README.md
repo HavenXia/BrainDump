@@ -81,6 +81,8 @@ $$head_i=Attention({QW^Q}_i,{KW^K}_i,{VW^V}_i)$$ is then used to caculate attent
 
 Then a $$Conact()$$is called so we still got a (6, 512) shape matrix, named _H._
 
+The last step is to multiply with $$W^O$$.
+
 <figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>MultiHead Attention</p></figcaption></figure>
 
-The last step is to&#x20;
+MultiHead calculates attention on smaller matrices to provide a better results.
