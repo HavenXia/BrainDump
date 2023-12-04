@@ -17,6 +17,8 @@ is sequential process, and need improvements.
 
 ## Transformer
 
+Basically left is Encoder and right is Decoder.
+
 <figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>Transformer Model</p></figcaption></figure>
 
 ### &#x20;Input Embedding:&#x20;
@@ -27,7 +29,7 @@ is sequential process, and need improvements.
 
 
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Input Embedding</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>Input Embedding</p></figcaption></figure>
 
 
 
@@ -39,13 +41,29 @@ An fixed vector of numbers (size is $$d_{model}$$) that represents the token pos
 
 The value in the position vector is caclulated by PE functions. PE only takes in position and 2i/2i+1, so it's not related to the token and can be applied to different sentences in one model.
 
-<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>PE function</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (1).png" alt=""><figcaption><p>PE function</p></figcaption></figure>
 
 
 
 ### Multi-Head Attention
 
-#### Self Attention
+#### Single Head Self Attention
 
-allows the model to relate words to each other
+Self attention allows the model to relate words to each other.
+
+$$Attention(Q,K,V) = softmax(QK^T/\sqrt{d_{model}})V$$&#x20;
+
+Q,K,V here are both a same matrix, the **Encoder Input**.
+
+E.g. for 6 tokens and  $$d_{model}$$= 512, Q\*K will be a 6x6 matrix. And $$softmax()$$ is like normalize that ensure each row sums to 1.
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Softmax function</p></figcaption></figure>
+
+Then we multiple it again with V, the initial (6, 512) encoder input, get another (6, 512) matrix that contains meaning in vocabulary/ position in sentence/ token interactions.
+
+#### Multi-Head Self Attention
+
+$$MultiHead(Q,K,V) = Conact(head_1 ... head_n) W^O$$
+
+$$head_i=Attention(QW_i^Q,KW_i^K,VW_i^V)$$
 
