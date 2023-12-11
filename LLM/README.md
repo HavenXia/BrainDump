@@ -21,7 +21,11 @@ Basically left is Encoder and right is Decoder.
 
 <figure><img src=".gitbook/assets/image (5).png" alt=""><figcaption><p>Transformer Model</p></figcaption></figure>
 
-### &#x20;Input Embedding:&#x20;
+
+
+## Encoder&#x20;
+
+### Input Embedding:&#x20;
 
 1. Tokenize the input sentence (each token maybe more than single word)
 2. Convert tokens into numbers that represent positions in a vocabulary training set
@@ -57,11 +61,9 @@ Q,K,V here are both a same matrix, the **Encoder Input**. $$d_k = d_{model}$$ he
 
 E.g. for 6 tokens and  $$d_{model}$$= 512, Q\*K will be a 6x6 matrix. And $$softmax()$$ is like normalize that ensure each row sums to 1.
 
-<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>Softmax function</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1).png" alt=""><figcaption><p>Softmax function</p></figcaption></figure>
 
 Then we multiple it again with V, the initial (6, 512) encoder input, get another (6, 512) matrix that contains meaning in vocabulary/ position in sentence/ token interactions.
-
-#### Multi-Head Self Attention
 
 $$MultiHead(Q,K,V) = Conact(head_1 ... head_n) W^O$$
 
@@ -69,7 +71,7 @@ $$MultiHead(Q,K,V) = Conact(head_1 ... head_n) W^O$$
 
 The encoder input (use 6,512 as example) got copied 4 times.
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>Encoder</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption><p>Encoder</p></figcaption></figure>
 
 Q, K, V stands for query, key and value.
 
@@ -83,6 +85,32 @@ Then a $$Conact()$$is called so we still got a (6, 512) shape matrix, named _H._
 
 The last step is to multiply with $$W^O$$.
 
-<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>MultiHead Attention</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (1).png" alt=""><figcaption><p>MultiHead Attention</p></figcaption></figure>
 
 MultiHead calculates attention on smaller matrices to provide a better results.
+
+### Add & Norm
+
+Layer normalization to amplify or not amplify the relationship.
+
+
+
+## Decoder
+
+The "output" here is what is used to train the model.
+
+### Masked MultiHead Attention
+
+A word won't see a future work, but only a previous word! So softmax will make it 0 in all deleted blocks.
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+Then in the second MultiHead Attention, the Q is the output of Add\&Norm after Masked MH Attention, but the K and V are results from the encoder.
+
+
+
+## Training
+
+<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>Training</p></figcaption></figure>
+
+The Linear layer will map the matrix to something in the vocabulary, called _logits_.
